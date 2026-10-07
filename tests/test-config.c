@@ -1390,7 +1390,7 @@ test_section_tweak(void)
     test_boolean(&ctx, &parse_section_tweak, "damage-whole-window",
                  &conf.tweak.damage_whole_window);
 
-#if defined(FOOT_GRAPHEME_CLUSTERING)
+#if defined(SIMPLE_GRAPHEME_CLUSTERING)
     test_boolean(&ctx, &parse_section_tweak, "grapheme-shaping",
                  &conf.tweak.grapheme_shaping);
 #else

@@ -69,7 +69,7 @@ find_file_in_path(const char *file)
 }
 
 static int
-foot_execvpe(const char *file, char *const argv[], char *const envp[])
+simple_execvpe(const char *file, char *const argv[], char *const envp[])
 {
     char *path = find_file_in_path(file);
     int ret = execve(path, argv, envp);
@@ -83,7 +83,7 @@ foot_execvpe(const char *file, char *const argv[], char *const envp[])
 
 #else   /* EXECVPE */
 
-#define foot_execvpe(file, argv, envp) execvpe(file, argv, envp)
+#define simple_execvpe(file, argv, envp) execvpe(file, argv, envp)
 
 #endif  /* EXECVPE */
 
@@ -158,7 +158,7 @@ emit_one_notification(int fd, const struct user_notification *notif)
     xassert(prefix != NULL);
 
     if (write(fd, prefix, strlen(prefix)) < 0 ||
-        write(fd, "foot: ", 6) < 0 ||
+        write(fd, "simple: ", 6) < 0 ||
         write(fd, notif->text, strlen(notif->text)) < 0 ||
         write(fd, postfix, strlen(postfix)) < 0)
     {
@@ -298,7 +298,7 @@ slave_exec(int ptmx, char *argv[], char *const envp[], int err_fd,
     } else
         file = argv[0];
 
-    foot_execvpe(file, argv, envp);
+    simple_execvpe(file, argv, envp);
 
 err:
     (void)!write(err_fd, &errno, sizeof(errno));
@@ -439,8 +439,8 @@ slave_spawn(int ptmx, int argc, const char *cwd, char *const *argv,
         del_from_env(&custom_env, "TERM_PROGRAM");
         del_from_env(&custom_env, "TERM_PROGRAM_VERSION");
 
-#if defined(FOOT_TERMINFO_PATH)
-        add_to_env(&custom_env, "TERMINFO", FOOT_TERMINFO_PATH);
+#if defined(SIMPLE_TERMINFO_PATH)
+        add_to_env(&custom_env, "TERMINFO", SIMPLE_TERMINFO_PATH);
 #endif
 
         if (extra_env_vars != NULL) {

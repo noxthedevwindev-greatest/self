@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
-  <id>org.codeberg.dnkl.foot</id>
+  <id>simple</id>
   <metadata_license>MIT</metadata_license>
   <project_license>MIT</project_license>
   <developer_name>dnkl</developer_name>
-  <name>foot</name>
+  <name>simple</name>
   <summary>The fast, lightweight and minimalistic Wayland terminal emulator.</summary>
   <description>
     <ul>
@@ -29,7 +29,7 @@
   </description>
   <screenshots>
     <screenshot type="default">
-      <caption>Foot with sixel graphics</caption>
+      <caption>Simple with sixel graphics</caption>
       <image>https://codeberg.org/dnkl/foot/media/branch/master/doc/sixel-wow.png</image>
     </screenshot>
   </screenshots>
@@ -50,7 +50,7 @@
     <release version="1.13.1" date="2022-08-31"/>
     <release version="1.13.0" date="2022-08-07"/>
   </releases>
-  <launchable type="desktop-id">org.codeberg.dnkl.foot.desktop</launchable>
+  <launchable type="desktop-id">simple.desktop</launchable>
   <url type="homepage">https://codeberg.org/dnkl/foot</url>
   <url type="bugtracker">https://codeberg.org/dnkl/foot/issues</url>
   <content_rating type="oars-1.1"/>

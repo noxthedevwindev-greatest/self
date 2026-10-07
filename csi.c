@@ -558,7 +558,7 @@ decset_decrst(struct terminal *term, unsigned param, bool enable)
         break;
 
     case 2027:
-#if defined(FOOT_GRAPHEME_CLUSTERING)
+#if defined(SIMPLE_GRAPHEME_CLUSTERING)
         term->grapheme_shaping = enable;
 #endif
         break;
@@ -859,7 +859,7 @@ csi_dispatch(struct terminal *term, uint8_t final)
              * The VT level must be synchronized with the secondary DA
              * response.
              *
-             * Note: tertiary DA responds with "FOOT".
+             * Note: tertiary DA responds with a fixed four-byte unit ID.
              */
             char reply[32];
 
@@ -1568,7 +1568,7 @@ csi_dispatch(struct terminal *term, uint8_t final)
                  * 1 - dark mode
                  * 2 - light mode
                  *
-                 * In foot, the themes aren't necessarily light/dark,
+                 * In simple, the themes aren't necessarily light/dark,
                  * but by convention, the primary theme is dark, and
                  * the alternative theme is light.
                  */
@@ -1650,16 +1650,16 @@ csi_dispatch(struct terminal *term, uint8_t final)
                  * We report ourselves as a VT220. This must be
                  * synchronized with the primary DA response.
                  *
-                 * Note: tertiary DA replies with "FOOT".
+                 * Note: tertiary DA replies with a fixed four-byte unit ID.
                  */
 
-                static_assert(FOOT_MAJOR < 100, "Major version must not exceed 99");
-                static_assert(FOOT_MINOR < 100, "Minor version must not exceed 99");
-                static_assert(FOOT_PATCH < 100, "Patch version must not exceed 99");
+                static_assert(SIMPLE_MAJOR < 100, "Major version must not exceed 99");
+                static_assert(SIMPLE_MINOR < 100, "Minor version must not exceed 99");
+                static_assert(SIMPLE_PATCH < 100, "Patch version must not exceed 99");
 
                 char reply[64];
                 size_t n = xsnprintf(reply, sizeof(reply), "\033[>1;%02u%02u%02u;0c",
-                         FOOT_MAJOR, FOOT_MINOR, FOOT_PATCH);
+                         SIMPLE_MAJOR, SIMPLE_MINOR, SIMPLE_PATCH);
 
                 term_to_slave(term, reply, n);
                 break;
@@ -1746,9 +1746,9 @@ csi_dispatch(struct terminal *term, uint8_t final)
 
             char reply[64];
             size_t n = xsnprintf(
-                reply, sizeof(reply), "\033P>|foot(%u.%u.%u%s%s)\033\\",
-                FOOT_MAJOR, FOOT_MINOR, FOOT_PATCH,
-                FOOT_EXTRA[0] != '\0' ? "-" : "", FOOT_EXTRA);
+                reply, sizeof(reply), "\033P>|simple(%u.%u.%u%s%s)\033\\",
+                SIMPLE_MAJOR, SIMPLE_MINOR, SIMPLE_PATCH,
+                SIMPLE_EXTRA[0] != '\0' ? "-" : "", SIMPLE_EXTRA);
             term_to_slave(term, reply, n);
             break;
         }
@@ -1866,7 +1866,10 @@ csi_dispatch(struct terminal *term, uint8_t final)
              * hexadecimal value from 00 through FF.
              */
 
-            term_to_slave(term, "\033P!|464f4f54\033\\", 14);  /* FOOT */
+            /* Unit ID is exactly four hex pairs, so it can't spell the
+               full project name; kept as upstream's value for
+               compatibility with scripts keying on the DA response. */
+            term_to_slave(term, "\033P!|464f4f54\033\\", 14);  /* 0x464f4f54 */
             break;
 
         case 'u': {

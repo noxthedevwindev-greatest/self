@@ -1,22 +1,22 @@
-#include "foot-features.h"
+#include "simple-features.h"
 #include "version.h"
 
 const char version_and_features[] =
-    "version: " FOOT_VERSION
+    "version: " SIMPLE_VERSION
 
-#if defined(FOOT_PGO_ENABLED) && FOOT_PGO_ENABLED
+#if defined(SIMPLE_PGO_ENABLED) && SIMPLE_PGO_ENABLED
     " +pgo"
 #else
     " -pgo"
 #endif
 
-#if defined(FOOT_IME_ENABLED) && FOOT_IME_ENABLED
+#if defined(SIMPLE_IME_ENABLED) && SIMPLE_IME_ENABLED
     " +ime"
 #else
     " -ime"
 #endif
 
-#if defined(FOOT_GRAPHEME_CLUSTERING) && FOOT_GRAPHEME_CLUSTERING
+#if defined(SIMPLE_GRAPHEME_CLUSTERING) && SIMPLE_GRAPHEME_CLUSTERING
     " +graphemes"
 #else
     " -graphemes"

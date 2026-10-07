@@ -1,4 +1,4 @@
-# Foot Code of Conduct
+# Simple Code of Conduct
 
 ## Our Pledge
 
@@ -50,7 +50,7 @@ decisions when appropriate.
 
 ## Scope
 
-Participants in the foot community are expected to uphold the described
+Participants in the simple community are expected to uphold the described
 standards not only in official community spaces (issue trackers, IRC channels,
 etc.) but in all public spaces. The Code of Conduct however does acknowledge
 that people are fallible and that it is possible to truely correct a past

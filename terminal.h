@@ -7,7 +7,7 @@
 #include <threads.h>
 #include <semaphore.h>
 
-#if defined(FOOT_GRAPHEME_CLUSTERING)
+#if defined(SIMPLE_GRAPHEME_CLUSTERING)
  #include <utf8proc.h>
 #endif
 
@@ -271,7 +271,7 @@ struct vt_param {
 struct vt {
     int state;  /* enum state */
     char32_t last_printed;
-#if defined(FOOT_GRAPHEME_CLUSTERING)
+#if defined(SIMPLE_GRAPHEME_CLUSTERING)
     utf8proc_int32_t grapheme_state;
 #endif
     char32_t utf8;
@@ -797,7 +797,7 @@ struct terminal {
     bool ime_reenable_after_url_mode;
     const struct config_spawn_template *url_launch;
 
-#if defined(FOOT_IME_ENABLED) && FOOT_IME_ENABLED
+#if defined(SIMPLE_IME_ENABLED) && SIMPLE_IME_ENABLED
     bool ime_enabled;
 #endif
 
@@ -821,12 +821,12 @@ struct terminal {
     /* State, to handle chunked notifications */
     struct notification kitty_notification;
 
-    /* Currently active notifications, from foot's perspective (their
+    /* Currently active notifications, from simple's perspective (their
        notification helper processes are still running) */
     tll(struct notification) active_notifications;
     struct notification_icon notification_icons[32];
 
-    char *foot_exe;
+    char *simple_exe;
     char *cwd;
 
     bool grapheme_shaping;
@@ -836,7 +836,7 @@ struct terminal {
 struct config;
 struct terminal *term_init(
     const struct config *conf, struct fdm *fdm, struct reaper *reaper,
-    struct wayland *wayl, const char *foot_exe, const char *cwd,
+    struct wayland *wayl, const char *simple_exe, const char *cwd,
     const char *token, const char *pty_path,
     int argc, char *const *argv, const char *const *envp,
     void (*shutdown_cb)(void *data, int exit_code), void *shutdown_data);
@@ -990,7 +990,7 @@ void term_theme_toggle(struct terminal *term);
 
 static inline void term_reset_grapheme_state(struct terminal *term)
 {
-#if defined(FOOT_GRAPHEME_CLUSTERING)
+#if defined(SIMPLE_GRAPHEME_CLUSTERING)
     term->vt.grapheme_state = 0;
 #endif
 }

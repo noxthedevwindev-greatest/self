@@ -56,7 +56,7 @@ def main():
                 if width > 0 and height > 0:
                     break
 
-                # We’re early; the foot window hasn’t been mapped yet. Or,
+                # We’re early; the simple window hasn’t been mapped yet. Or,
                 # to be more precise, fonts haven’t yet been loaded,
                 # meaning it doesn’t have any cell geometry yet.
                 signal.sigwait([signal.SIGWINCH])

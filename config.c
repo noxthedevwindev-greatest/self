@@ -390,9 +390,9 @@ open_config(void)
 
     /* First, check XDG_CONFIG_HOME (or .config, if unset) */
     if (xdg_config_home != NULL && xdg_config_home[0] != '\0')
-        path = xstrjoin(xdg_config_home, "/foot/foot.ini");
+        path = xstrjoin(xdg_config_home, "/simple/simple.ini");
     else if (home_dir != NULL)
-        path = xstrjoin(home_dir, "/.config/foot/foot.ini");
+        path = xstrjoin(home_dir, "/.config/simple/simple.ini");
 
     if (path != NULL) {
         LOG_DBG("checking for %s", path);
@@ -417,7 +417,7 @@ open_config(void)
          conf_dir = strtok(NULL, ":"))
     {
         free(path);
-        path = xstrjoin(conf_dir, "/foot/foot.ini");
+        path = xstrjoin(conf_dir, "/simple/simple.ini");
 
         LOG_DBG("checking for %s", path);
         int fd = open(path, O_RDONLY | O_CLOEXEC);
@@ -1882,7 +1882,7 @@ static const struct {
     {"BTN_BACK", BTN_BACK},
     {"BTN_TASK", BTN_TASK},
 
-    /* Foot custom, to be able to map scroll events to mouse bindings */
+    /* Simple custom, to be able to map scroll events to mouse bindings */
     {"BTN_WHEEL_BACK", BTN_WHEEL_BACK},
     {"BTN_WHEEL_FORWARD", BTN_WHEEL_FORWARD},
     {"BTN_WHEEL_LEFT", BTN_WHEEL_LEFT},
@@ -2726,10 +2726,10 @@ parse_section_tweak(struct context *ctx)
         if (!value_to_bool(ctx, &conf->tweak.grapheme_shaping))
             return false;
 
-#if !defined(FOOT_GRAPHEME_CLUSTERING)
+#if !defined(SIMPLE_GRAPHEME_CLUSTERING)
         if (conf->tweak.grapheme_shaping) {
             LOG_CONTEXTUAL_WARN(
-                "foot was not compiled with support for grapheme shaping");
+                "simple was not compiled with support for grapheme shaping");
             conf->tweak.grapheme_shaping = false;
         }
 #endif
@@ -3173,14 +3173,14 @@ get_server_socket_path(void)
 {
     const char *xdg_runtime = getenv("XDG_RUNTIME_DIR");
     if (xdg_runtime == NULL)
-        return xstrdup("/tmp/foot.sock");
+        return xstrdup("/tmp/simple.sock");
 
     const char *wayland_display = getenv("WAYLAND_DISPLAY");
     if (wayland_display == NULL) {
-        return xstrjoin(xdg_runtime, "/foot.sock");
+        return xstrjoin(xdg_runtime, "/simple.sock");
     }
 
-    return xasprintf("%s/foot-%s.sock", xdg_runtime, wayland_display);
+    return xasprintf("%s/simple-%s.sock", xdg_runtime, wayland_display);
 }
 
 static config_modifier_list_t
@@ -3340,10 +3340,10 @@ config_load(struct config *conf, const char *conf_path,
     enum fcft_capabilities fcft_caps = fcft_capabilities();
 
     *conf = (struct config) {
-        .term = xstrdup(FOOT_DEFAULT_TERM),
+        .term = xstrdup(SIMPLE_DEFAULT_TERM),
         .shell = get_shell(),
-        .title = xstrdup("foot"),
-        .app_id = (as_server ? xstrdup("footclient") : xstrdup("foot")),
+        .title = xstrdup("simple"),
+        .app_id = (as_server ? xstrdup("simpleclient") : xstrdup("simple")),
         .word_delimiters = xc32dup(U",│`|:\"'()[]{}<>"),
         .size = {
             .type = CONF_SIZE_PX,
@@ -3470,7 +3470,7 @@ config_load(struct config *conf, const char *conf_path,
         .tweak = {
             .fcft_filter = FCFT_SCALING_FILTER_LANCZOS3,
             .overflowing_glyphs = true,
-#if defined(FOOT_GRAPHEME_CLUSTERING) && FOOT_GRAPHEME_CLUSTERING
+#if defined(SIMPLE_GRAPHEME_CLUSTERING) && SIMPLE_GRAPHEME_CLUSTERING
             .grapheme_shaping = fcft_caps & FCFT_CAPABILITY_GRAPHEME_SHAPING,
 #endif
             .grapheme_width_method = GRAPHEME_WIDTH_DOUBLE,
