@@ -1,23 +1,23 @@
-simpleclient(1)
+selfc(1)
 
 # NAME
-simpleclient - start new terminals in a simple server
+selfc - start new terminals in a self server
 
 # SYNOPSIS
-*simpleclient* [_OPTIONS_]++
-*simpleclient* [_OPTIONS_] <_command_> [_COMMAND OPTIONS_]
+*selfc* [_OPTIONS_]++
+*selfc* [_OPTIONS_] <_command_> [_COMMAND OPTIONS_]
 
 All trailing (non-option) arguments are treated as a command, and its
 arguments, to execute (instead of the default shell).
 
 # DESCRIPTION
 
-*simpleclient* is used together with *simple*(1) in *--server*
+*selfc* is used together with *self*(1) in *--server*
 mode.
 
 Running it without arguments will open a new terminal window (hosted
-in the simple server), with your default shell. The exit code will be
-that of the terminal. I.e *simpleclient* does not exit until the
+in the self server), with your default shell. The exit code will be
+that of the terminal. I.e *selfc* does not exit until the
 terminal has terminated.
 
 # OPTIONS
@@ -27,11 +27,11 @@ terminal has terminated.
 	and *ENVIRONMENT*). Default: _@default_terminfo@_.
 
 *-T*,*--title*=_TITLE_
-	Initial window title. Default: _simple_.
+	Initial window title. Default: _self_.
 
 *-a*,*--app-id*=_ID_
 	Value to set the *app-id* property on the Wayland window
-	to. Default: _simple_ (normal mode), or _simpleclient_ (server mode).
+	to. Default: _self_ (normal mode), or _selfc_ (server mode).
 
 *-w*,*--window-size-pixels*=_WIDTHxHEIGHT_
 	Set initial window width and height, in pixels. Default: _700x500_.
@@ -52,11 +52,11 @@ terminal has terminated.
 
 *-D*,*--working-directory*=_DIR_
 	Initial working directory for the client application. Default:
-	_CWD of simpleclient_.
+	_CWD of selfc_.
 
 *-s*,*--server-socket*=_PATH_
 	Connect to _PATH_ instead of
-	*$XDG\_RUNTIME\_DIR/simple-$WAYLAND\_DISPLAY.sock*.
+	*$XDG\_RUNTIME\_DIR/self-$WAYLAND\_DISPLAY.sock*.
 
 *-H*,*--hold*
 	Remain open after child process exits.
@@ -71,12 +71,12 @@ terminal has terminated.
 
 *-E*,*--client-environment*
 	The child process in the new terminal instance will use
-	simpleclient's environment, instead of the server's.
+	selfc's environment, instead of the server's.
 
 	Environment variables listed in the *Variables set in the child
-	process* section will be overwritten by the simple server. For
+	process* section will be overwritten by the self server. For
 	example, the new terminal will use *TERM* from the configuration,
-	not simpleclient's environment.
+	not selfc's environment.
 
 *-d*,*--log-level*={*info*,*warning*,*error*,*none*}
 	Log level, used both for log output on stderr as well as
@@ -89,19 +89,19 @@ terminal has terminated.
 	Show the version number and quit
 
 *-e*
-	Ignored; for compatibility with *xterm -e*. See *simple*(1) for more
+	Ignored; for compatibility with *xterm -e*. See *self*(1) for more
 	details.
 
 # EXIT STATUS
 
-Simpleclient will exit with code 220 if there is a failure in simpleclient
+Selfc will exit with code 220 if there is a failure in selfc
 itself (for example, the server socket does not exist).
 
-If *-N*,*--no-wait* is used, simpleclient exits with code 0 as soon as
-the simple server has been instructed to open a new window.
+If *-N*,*--no-wait* is used, selfc exits with code 0 as soon as
+the self server has been instructed to open a new window.
 
-If not, simpleclient may also exit with code 230. This indicates a
-failure in the simple server.
+If not, selfc may also exit with code 230. This indicates a
+failure in the self server.
 
 In all other cases the exit code is that of the client application
 (i.e. the shell).
@@ -109,39 +109,39 @@ In all other cases the exit code is that of the client application
 # TERMINFO
 
 Client applications use the terminfo identifier specified by the
-environment variable *TERM* (set by simple) to determine terminal
+environment variable *TERM* (set by self) to determine terminal
 capabilities.
 
-Simple has two terminfo definitions: *simple* and *simple-direct*, with
-*simple* being the default.
+Self has two terminfo definitions: *self* and *self-direct*, with
+*self* being the default.
 
 The difference between the two is in the number of colors they
-describe; *simple* describes 256 colors and *simple-direct* 16.7 million
+describe; *self* describes 256 colors and *self-direct* 16.7 million
 colors (24-bit truecolor).
 
-Note that using the *simple* terminfo does not limit the number of
+Note that using the *self* terminfo does not limit the number of
 usable colors to 256; applications can still use 24-bit RGB colors. In
-fact, most applications work best with *simple* (including 24-bit
+fact, most applications work best with *self* (including 24-bit
 colors)). Using *\*-direct* terminfo entries has been known to crash
 some ncurses applications even.
 
 There are however applications that need a *\*-direct* terminfo entry
 for 24-bit support. Emacs is one such example.
 
-While using either *simple* or *simple-direct* is strongly recommended, it
+While using either *self* or *self-direct* is strongly recommended, it
 is possible to use e.g. *xterm-256color* as well. This can be useful
-when remoting to a system where simple's terminfo entries cannot easily
+when remoting to a system where self's terminfo entries cannot easily
 be installed.
 
 Note that terminfo entries can be installed in the user's home
 directory. I.e. if you do not have root access, or if there is no
-distro package for simple's terminfo entries, you can install simple's
-terminfo entries manually, by copying *simple* and *simple-direct* to
+distro package for self's terminfo entries, you can install self's
+terminfo entries manually, by copying *self* and *self-direct* to
 *~/.terminfo/s/*.
 
 # ENVIRONMENT
 
-## Variables used by simpleclient
+## Variables used by selfc
 
 *XDG\_RUNTIME\_DIR*
 	Used to construct the default _PATH_ for the *--server-socket*
@@ -151,10 +151,10 @@ terminfo entries manually, by copying *simple* and *simple-direct* to
 	Used to construct the default _PATH_ for the *--server-socket*
 	option, when no explicit argument is given (see above).
 
-If the socket at default _PATH_ does not exist, *simpleclient* will
+If the socket at default _PATH_ does not exist, *selfc* will
 fallback to the less specific path, with the following priority:
-*$XDG\_RUNTIME\_DIR/simple-$WAYLAND\_DISPLAY.sock*,
-*$XDG\_RUNTIME\_DIR/simple.sock*, */tmp/simple.sock*.
+*$XDG\_RUNTIME\_DIR/self-$WAYLAND\_DISPLAY.sock*,
+*$XDG\_RUNTIME\_DIR/self.sock*, */tmp/self.sock*.
 
 ## Variables set in the child process
 
@@ -162,21 +162,21 @@ fallback to the less specific path, with the following priority:
 	terminfo/termcap identifier. This is used by client applications
 	to determine which capabilities a terminal supports. The value is
 	set according to either the *--term* command-line option or the
-	*term* config option in *simple.ini*(5).
+	*term* config option in *self.ini*(5).
 
 *COLORTERM*
 	This variable is set to *truecolor*, to indicate to client
 	applications that 24-bit RGB colors are supported.
 
 *PWD*
-	Current working directory (at the time of launching simple)
+	Current working directory (at the time of launching self)
 
 *SHELL*
 	Set to the launched shell, if the shell is valid (it is listed in
 	*/etc/shells*).
 
 In addition to the variables listed above, custom environment
-variables may be defined in *simple.ini*(5).
+variables may be defined in *self.ini*(5).
 
 ## Variables *unset* in the child process
 
@@ -184,11 +184,11 @@ variables may be defined in *simple.ini*(5).
 *TERM_PROGRAM_VERSION*
 	These environment variables are set by certain other terminal
 	emulators. We unset them, to prevent applications from
-	misdetecting simple.
+	misdetecting self.
 
 In addition to the variables listed above, custom environment
-variables to unset may be defined in *simple.ini*(5).
+variables to unset may be defined in *self.ini*(5).
 
 # SEE ALSO
 
-*simple*(1)
+*self*(1)

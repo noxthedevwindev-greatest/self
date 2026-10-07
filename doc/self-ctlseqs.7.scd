@@ -1,11 +1,11 @@
-simple-ctlseqs(7)
+self-ctlseqs(7)
 
 # NAME
-simple-ctlseqs - terminal control sequences supported by simple
+self-ctlseqs - terminal control sequences supported by self
 
 # DESCRIPTION
 
-This document describes all the control sequences supported by simple.
+This document describes all the control sequences supported by self.
 
 - Control characters
 - Sequences beginning with ESC
@@ -25,7 +25,7 @@ This document describes all the control sequences supported by simple.
 :< *Description*
 |  \\a
 :  BEL
-:  Depends on what *bell* in *simple.ini*(5) is set to.
+:  Depends on what *bell* in *self.ini*(5) is set to.
 |  \\b
 :  BS
 :  Backspace; move the cursor left one step. Wrap if _bw_ is enabled.
@@ -176,29 +176,29 @@ m*.
 |  29
 :  Disable crossed-out
 |  30-37
-:  Select foreground color (using *regularN* in *simple.ini*(5))
+:  Select foreground color (using *regularN* in *self.ini*(5))
 |  38
 :  Select foreground color, see "indexed and RGB colors" below
 |  39
-:  Use the default foreground color (*foreground* in *simple.ini*(5))
+:  Use the default foreground color (*foreground* in *self.ini*(5))
 |  40-47
-:  Select background color (using *regularN* in *simple.ini*(5))
+:  Select background color (using *regularN* in *self.ini*(5))
 |  48
 :  Select background color, see "indexed and RGB colors" below
 |  49
-:  Use the default background color (*background* in *simple.ini*(5))
+:  Use the default background color (*background* in *self.ini*(5))
 |  58
 :  Select underline color, see "indexed and RGB colors" below
 |  59
 :  Use the default underline color
 |  90-97
-:  Select foreground color (using *brightN* in *simple.ini*(5))
+:  Select foreground color (using *brightN* in *self.ini*(5))
 |  100-107
-:  Select background color (using *brightN* in *simple.ini*(5))
+:  Select background color (using *brightN* in *self.ini*(5))
 
 ## Indexed and RGB colors (256-color palette and 24-bit colors)
 
-Simple supports both the new sub-parameter based variants, and the older
+Self supports both the new sub-parameter based variants, and the older
 parameter based variants for setting foreground and background colors.
 
 Indexed colors:
@@ -212,13 +212,13 @@ RGB colors:
 - *\\E[ 38 : 2 :* _r_ *:* _g_ *:* _b_ *m*
 - *\\E[ 38 ; 2 ;* _r_ *;* _g_ *;* _b_ *m*
 
-The first variant is the "correct" one (and simple also recognizes, but
+The first variant is the "correct" one (and self also recognizes, but
 ignores, the optional _tolerance_ parameters).
 
 The second one is allowed since many programs "forget" the color space
 ID, _cs_.
 
-The sub-parameter based variants are preferred, and are what simple's
+The sub-parameter based variants are preferred, and are what self's
 *terminfo*(5) entry uses.
 
 ## Private Modes
@@ -315,7 +315,7 @@ that corresponds to one of the following modes:
 :  Send ESC when Meta modifies a key (see xterm metaSendsEscape option)
 |  1042
 :  xterm
-:  Perform action for BEL character (see *bell* in *simple.ini*(5))
+:  Perform action for BEL character (see *bell* in *self.ini*(5))
 |  1047
 :  xterm
 :  Use alternate screen buffer
@@ -347,12 +347,12 @@ that corresponds to one of the following modes:
 :  xterm
 :  Position cursor to the right of sixels, instead of on the next line
 |  737769
-:  simple
+:  self
 :  Input Method Editor (IME) mode
 
 ## Window manipulation
 
-Simple implements a sub-set of XTerm's (originally dtterm's) window
+Self implements a sub-set of XTerm's (originally dtterm's) window
 manipulation sequences. The generic format is:
 
 *\\E[ *_Ps_* ; *_Ps_* ; *_Ps_* t*
@@ -362,22 +362,22 @@ manipulation sequences. The generic format is:
 :< *Description*
 |  11
 :  -
-:  Report if window is iconified. Simple always reports *1* - not iconified.
+:  Report if window is iconified. Self always reports *1* - not iconified.
 |  13
 :  -
-:  Report window position. Simple always reports (0,0), due to Wayland
+:  Report window position. Self always reports (0,0), due to Wayland
    limitations.
 |  13
 :  2
-:  Report text area position. Simple always reports (0,0) due to Wayland
+:  Report text area position. Self always reports (0,0) due to Wayland
    limitations.
 |  14
 :  -
-:  Report text area size, in pixels. Simple reports the grid size,
+:  Report text area size, in pixels. Self reports the grid size,
    excluding the margins.
 |  14
 :  2
-:  Report window size, in pixels. Simple reports the grid size plus the
+:  Report window size, in pixels. Self reports the grid size plus the
    margins.
 |  15
 :  -
@@ -422,7 +422,7 @@ manipulation sequences. The generic format is:
 |  \\E[ _Ps_ c
 :  DA
 :  VT100
-:  Send primary device attributes. Simple responds with "I'm a VT220 with
+:  Send primary device attributes. Self responds with "I'm a VT220 with
    sixel and ANSI color support".
 |  \\E[ _Ps_ A
 :  CUU
@@ -499,7 +499,7 @@ manipulation sequences. The generic format is:
 |  \\E[ > c
 :  DA2
 :  VT220
-:  Send secondary device attributes. Simple responds with "I'm a VT220
+:  Send secondary device attributes. Self responds with "I'm a VT220
    and here's my version number".
 |  \\E[ ! p
 :  DECSTR
@@ -556,12 +556,13 @@ manipulation sequences. The generic format is:
 |  \\E[ _Ps_ SP q
 :  DECSCUSR
 :  VT510
-:  Set cursor style. In simple, _Ps_=0 means "use style from simple.ini".
+:  Set cursor style. In self, _Ps_=0 means "use style from self.ini".
 |  \\E[ = _Ps_ c
 :  DA3
 :  VT510
-:  Send tertiary device attributes. Simple responds with "SIMPLE", in
-   hexadecimal.
+:  Send tertiary device attributes. Self responds with a fixed four-byte
+   unit ID, *464f4f54*, in hexadecimal. The field is too short to spell
+   the project name.
 |  \\E[ _Pm_ d
 :  VPA
 :  ECMA-48
@@ -615,11 +616,11 @@ manipulation sequences. The generic format is:
 :  XTVERSION
 :  xterm
 :  _Ps_=0 -> report terminal name and version, in the form
-   *\\EP>|simple(version)\\E\\*.
+   *\\EP>|self(version)\\E\\*.
 |  \\E[ > 4 ; _Pv_ m
 :  XTMODKEYS
 :  xterm
-:  Set level of the _modifyOtherKeys_ property to _Pv_. Note that simple
+:  Set level of the _modifyOtherKeys_ property to _Pv_. Note that self
    only supports level 1 and 2, where level 1 is the default setting.
 |  \\E[ ? _Pp_ m
 :  XTQMODKEYS
@@ -628,9 +629,9 @@ manipulation sequences. The generic format is:
 |  \\E[ > 4 n
 :  <unnamed>
 :  xterm
-:  Resets the _modifyOtherKeys_ property to level 1. Note that in simple,
+:  Resets the _modifyOtherKeys_ property to level 1. Note that in self,
    this sequence does not completely disable _modifyOtherKeys_, since
-   simple only supports level 1 and level 2 (and not level 0).
+   self only supports level 1 and level 2 (and not level 0).
 |  \\E[ ? u
 :  <unnamed>
 :  kitty
@@ -665,7 +666,7 @@ manipulation sequences. The generic format is:
 :  contour
 :  The current color theme mode (light or dark) is reported as *CSI ?
    997 ; 1|2 n*, where *1* means dark and *2* light. By convention, the
-   primary theme in simple is considered dark, and the alternative theme
+   primary theme in self is considered dark, and the alternative theme
    light.
 
 
@@ -688,7 +689,7 @@ All _OSC_ sequences begin with *\\E]*, sometimes abbreviated _OSC_.
 |  \\E] 4 ; _c_ ; _spec_ \\E\\ 
 :  xterm
 :  Change color number _c_ to _spec_, where _spec_ is a color in
-   XParseColor format. simple only supports RGB colors; either
+   XParseColor format. self only supports RGB colors; either
    *rgb:<red>/<green>/<blue>*, or the legacy format (*#rgb*).
 |  \\E] 7 ; _Uri_ \\E\\ 
 :  iTerm2
@@ -702,7 +703,7 @@ All _OSC_ sequences begin with *\\E]*, sometimes abbreviated _OSC_.
    hyperlink. An empty URI closes the hyperlink.
 |  \\E] 9 ; _msg_ \\E\\ 
 :  iTerm2
-:  Desktop notification, uses *notify* in *simple.ini*(5).
+:  Desktop notification, uses *notify* in *self.ini*(5).
 |  \\E] 10 ; _spec_ \\E\\ 
 :  xterm
 :  Change the default foreground color to _spec_, a color in
@@ -710,7 +711,7 @@ All _OSC_ sequences begin with *\\E]*, sometimes abbreviated _OSC_.
 |  \\E] 11 ; _spec_ \\E\\ 
 :  xterm
 :  Change the default background color to _spec_, a color in
-   XParseColor format. Simple implements URxvt's transparency extension;
+   XParseColor format. Self implements URxvt's transparency extension;
    e.g. _spec_=*[75]#ff00ff* or _spec_=*rgba:ff/00/ff/bf* (pink with
    75% alpha).
 |  \\E] 12 ; _spec_ \\E\\ 
@@ -745,7 +746,7 @@ All _OSC_ sequences begin with *\\E]*, sometimes abbreviated _OSC_.
 |  \\E] 99 ; _params_ ; _payload_ \\E\\ 
 :  kitty
 :  Desktop notification; uses *desktop-notifications.command* in
-   *simple.ini*(5).
+   *self.ini*(5).
 |  \\E] 104 ; _c_ \\E\\ 
 :  xterm
 :  Reset color number _c_ (multiple semicolon separated _c_ values may
@@ -776,17 +777,17 @@ All _OSC_ sequences begin with *\\E]*, sometimes abbreviated _OSC_.
 :  FinalTerm
 :  Mark end of command output
 |  \\E] 176 ; _app-id_ \\E\\ 
-:  simple
+:  self
 :  Set app ID. _app-id_ is optional; if assigned,
    the terminal window App ID will be set to the value.
    An empty App ID resets the value to the default.
 |  \\E] 555 \\E\\ 
-:  simple
-:  Flash the entire terminal (simple extension)
+:  self
+:  Flash the entire terminal (self extension)
 |  \\E] 777;notify;_title_;_msg_ \\E\\ 
 :  urxvt
 :  Desktop notification, uses *desktop-notifications.command* in
-   *simple.ini*(5).
+   *self.ini*(5).
 
 # DCS
 
@@ -810,4 +811,4 @@ and are terminated by *\\E\\* (ST).
 
 # FOOTNOTE
 
-Simple does not support 8-bit control characters ("C1").
+Self does not support 8-bit control characters ("C1").

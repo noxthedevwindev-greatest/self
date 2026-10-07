@@ -1,7 +1,7 @@
-# simple
+# self
 
 A fork of [foot](https://codeberg.org/dnkl/foot) — the fast, lightweight,
-Wayland-native terminal emulator — renamed to `simple`.
+Wayland-native terminal emulator — renamed to `self`.
 
 Nothing about foot's behaviour has been changed. This is foot with a
 different name, so it can be installed and run alongside it.
@@ -11,33 +11,24 @@ different name, so it can be installed and run alongside it.
 
 ## What's different
 
-| | upstream foot | simple |
+| | upstream foot | self |
 |---|---|---|
-| binaries | `foot`, `footclient` | `simple`, `simpleclient` |
-| config | `~/.config/foot/foot.ini` | `~/.config/simple/simple.ini` |
-| socket | `$XDG_RUNTIME_DIR/foot-$WAYLAND_DISPLAY.sock` | `.../simple-$WAYLAND_DISPLAY.sock` |
-| `TERM` | `foot` | `simple` |
-| terminfo | `foot`, `foot-direct` | `simple`, `simple-direct` |
+| binaries | `foot`, `footclient` | `self`, `selfc` |
+| config | `~/.config/foot/foot.ini` | `~/.config/self/self.ini` || socket | `$XDG_RUNTIME_DIR/foot-$WAYLAND_DISPLAY.sock` | `.../self-$WAYLAND_DISPLAY.sock` |
+| `TERM` | `foot` | `self` |
+| terminfo | `foot`, `foot-direct` | `self`, `self-direct` |
 
 The install paths move too: terminfo lands in `share/terminfo/s/`, themes
-in `share/simple/themes/`, docs in `share/doc/simple/`.
+in `share/self/themes/`, docs in `share/doc/self/`.
 
-Full list of renames is in the commit message of
-[`6b12f2b9`](https://github.com/noxthedevwindev-greatest/simple/commit/6b12f2b9).
-
-### One caveat
-
-`TERM` now defaults to `simple`, so a **remote host that doesn't have this
-build installed has no `simple` terminfo entry** — curses apps and anything
-else reading `TERM` will misbehave over ssh. If that bites you, build with
-`-Ddefault-terminfo=foot`, or copy `simple` and `simple-direct` into
-`~/.terminfo/s/` on the remote box.
+Upstream rename commits: [`6b12f2b9`](https://github.com/noxthedevwindev-greatest/self/commit/6b12f2b9)
+(foot → simple) and the current one (simple → self).
 
 
 ## Features
 
 * Fast, lightweight, Wayland native
-* Server/daemon mode (`simple --server` + `simpleclient`)
+* Server/daemon mode (`self --server` + `selfc`)
 * Scrollback search, keyboard-driven URL detection
 * User configurable font fallback, on-the-fly resize and DPI adjustment
 * Color emoji, IME via `text-input-v3`, multi-seat
@@ -63,32 +54,32 @@ Packaging notes and the full list of build options are in
 
 ## Configuration
 
-`~/.config/simple/simple.ini` — a commented example ships at
-[`simple.ini`](simple.ini) in this repo and installs to
-`/etc/xdg/simple/simple.ini`.
+`~/.config/self/self.ini` — a commented example ships at
+[`self.ini`](self.ini) in this repo and installs to
+`/etc/xdg/self/self.ini`.
 
 ```ini
 [main]
 font=monospace:size=10
-term=simple
+term=self
 ```
 
-See [`simple.ini(5)`](doc/simple.ini.5.scd) for every option.
+See [`self.ini(5)`](doc/self.ini.5.scd) for every option.
 
 
 ## Documentation
 
-* [`simple(1)`](doc/simple.1.scd) — general, key bindings, shell integration
-* [`simple.ini(5)`](doc/simple.ini.5.scd) — configuration reference
-* [`simpleclient(1)`](doc/simpleclient.1.scd) — client and server mode
-* [`simple-ctlseqs(7)`](doc/simple-ctlseqs.7.scd) — supported escape sequences
+* [`self(1)`](doc/self.1.scd) — general, key bindings, shell integration
+* [`self.ini(5)`](doc/self.ini.5.scd) — configuration reference
+* [`selfc(1)`](doc/selfc.1.scd) — client and server mode
+* [`self-ctlseqs(7)`](doc/self-ctlseqs.7.scd) — supported escape sequences
 
 
 ## Pulling in upstream changes
 
 ```
 git remote -v
-origin    https://github.com/noxthedevwindev-greatest/simple.git
+origin    https://github.com/noxthedevwindev-greatest/self.git
 upstream  https://github.com/yonasBSD/foot
 ```
 
@@ -101,9 +92,16 @@ Merging will conflict on almost every renamed file, since the rename
 touched 72 of them. There's no clean way around that; cherry-pick
 individual upstream commits by hand when possible.
 
+
+## Plans
+
+Currently just foot under a new name. Features will land here as they're
+added — open an issue or a PR.
+
+
 ---
 
-*simple is a fork of [foot](https://codeberg.org/dnkl/foot) by Daniel
+*self is a fork of [foot](https://codeberg.org/dnkl/foot) by Daniel
 Eklöf, MIT licensed. See [LICENSE](LICENSE) and
 [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md). Upstream issues:
 <https://codeberg.org/dnkl/foot/issues>.*

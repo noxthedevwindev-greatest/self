@@ -1,11 +1,11 @@
 [Desktop Entry]
 Type=Application
-Exec=simple
-Icon=simple
+Exec=self
+Icon=self
 Terminal=false
 Categories=System;TerminalEmulator;
 Keywords=shell;prompt;command;commandline;
 
-Name=Simple
+Name=Self
 GenericName=Terminal
 Comment=A wayland native terminal emulator

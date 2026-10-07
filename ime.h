@@ -1,12 +1,12 @@
 #pragma once
 
-#if defined(SIMPLE_IME_ENABLED) && SIMPLE_IME_ENABLED
+#if defined(SELF_IME_ENABLED) && SELF_IME_ENABLED
 
 #include "text-input-unstable-v3.h"
 
 extern const struct zwp_text_input_v3_listener text_input_listener;
 
-#endif /* SIMPLE_IME_ENABLED */
+#endif /* SELF_IME_ENABLED */
 
 struct seat;
 struct terminal;

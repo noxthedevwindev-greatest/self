@@ -1,5 +1,5 @@
-# Bash completion script for simpleclient
-_simpleclient()
+# Bash completion script for selfc
+_selfc()
 {
     COMPREPLY=()
 
@@ -30,7 +30,7 @@ _simpleclient()
     # Check if positional argument is completed
     previous_words=( "${COMP_WORDS[@]}" )
     unset previous_words[-1]
-    commands=$(compgen -c | grep -vFx "$(compgen -k)" | grep -vE '^([.:[]|simpleclient)$' | sort -u)
+    commands=$(compgen -c | grep -vFx "$(compgen -k)" | grep -vE '^([.:[]|selfc)$' | sort -u)
     i=0
     for word in "${previous_words[@]}" ; do
         match=$(printf "$commands" | grep -Fx "$word" 2>/dev/null)
@@ -78,4 +78,4 @@ _simpleclient()
     return 0
 }
 
-complete -F _simpleclient simpleclient
+complete -F _selfc selfc

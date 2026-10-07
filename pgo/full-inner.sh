@@ -16,8 +16,8 @@ rm -f "${blddir}"/pgo-ok
 cd "${blddir}"
 
 "${blddir}"/utils/xtgettcap
-"${blddir}"/simpleclient --version
-"${blddir}"/simple \
+"${blddir}"/selfc --version
+"${blddir}"/self \
            --config=/dev/null \
            --override tweak.grapheme-shaping=no \
            --term=xterm \

@@ -1,5 +1,5 @@
-# Bash completion script for simple
-_simple()
+# Bash completion script for self
+_self()
 {
     COMPREPLY=()
 
@@ -35,7 +35,7 @@ _simple()
     # Check if positional argument is completed
     previous_words=( "${COMP_WORDS[@]}" )
     unset previous_words[-1]
-    commands=$(compgen -c | grep -vFx "$(compgen -k)" | grep -vE '^([.:[]|simple)$' | sort -u)
+    commands=$(compgen -c | grep -vFx "$(compgen -k)" | grep -vE '^([.:[]|self)$' | sort -u)
     i=0
     for word in "${previous_words[@]}" ; do
         match=$(printf "$commands" | grep -Fx "$word" 2>/dev/null)
@@ -86,4 +86,4 @@ _simple()
     return 0
 }
 
-complete -F _simple simple
+complete -F _self self

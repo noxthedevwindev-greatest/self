@@ -40,11 +40,11 @@ minor=$(echo "${new_version}" | sed -r 's/([0-9]+)\.([0-9]+)\.([0-9]+).*/\2/')
 patch=$(echo "${new_version}" | sed -r 's/([0-9]+)\.([0-9]+)\.([0-9]+).*/\3/')
 extra=$(echo "${new_version}" | sed -r 's/([0-9]+)\.([0-9]+)\.([0-9]+)(-([0-9]+-g[a-z0-9]+) .*)?.*/\5/')
 
-new_version="#define SIMPLE_VERSION \"${new_version}\"
-#define SIMPLE_MAJOR ${major}
-#define SIMPLE_MINOR ${minor}
-#define SIMPLE_PATCH ${patch}
-#define SIMPLE_EXTRA \"${extra}\""
+new_version="#define SELF_VERSION \"${new_version}\"
+#define SELF_MAJOR ${major}
+#define SELF_MINOR ${minor}
+#define SELF_PATCH ${patch}
+#define SELF_EXTRA \"${extra}\""
 
 if [ -f "${out_file}" ]; then
     old_version=$(cat "${out_file}")

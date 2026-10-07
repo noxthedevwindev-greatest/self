@@ -558,7 +558,7 @@ decset_decrst(struct terminal *term, unsigned param, bool enable)
         break;
 
     case 2027:
-#if defined(SIMPLE_GRAPHEME_CLUSTERING)
+#if defined(SELF_GRAPHEME_CLUSTERING)
         term->grapheme_shaping = enable;
 #endif
         break;
@@ -1568,7 +1568,7 @@ csi_dispatch(struct terminal *term, uint8_t final)
                  * 1 - dark mode
                  * 2 - light mode
                  *
-                 * In simple, the themes aren't necessarily light/dark,
+                 * In self, the themes aren't necessarily light/dark,
                  * but by convention, the primary theme is dark, and
                  * the alternative theme is light.
                  */
@@ -1653,13 +1653,13 @@ csi_dispatch(struct terminal *term, uint8_t final)
                  * Note: tertiary DA replies with a fixed four-byte unit ID.
                  */
 
-                static_assert(SIMPLE_MAJOR < 100, "Major version must not exceed 99");
-                static_assert(SIMPLE_MINOR < 100, "Minor version must not exceed 99");
-                static_assert(SIMPLE_PATCH < 100, "Patch version must not exceed 99");
+                static_assert(SELF_MAJOR < 100, "Major version must not exceed 99");
+                static_assert(SELF_MINOR < 100, "Minor version must not exceed 99");
+                static_assert(SELF_PATCH < 100, "Patch version must not exceed 99");
 
                 char reply[64];
                 size_t n = xsnprintf(reply, sizeof(reply), "\033[>1;%02u%02u%02u;0c",
-                         SIMPLE_MAJOR, SIMPLE_MINOR, SIMPLE_PATCH);
+                         SELF_MAJOR, SELF_MINOR, SELF_PATCH);
 
                 term_to_slave(term, reply, n);
                 break;
@@ -1746,9 +1746,9 @@ csi_dispatch(struct terminal *term, uint8_t final)
 
             char reply[64];
             size_t n = xsnprintf(
-                reply, sizeof(reply), "\033P>|simple(%u.%u.%u%s%s)\033\\",
-                SIMPLE_MAJOR, SIMPLE_MINOR, SIMPLE_PATCH,
-                SIMPLE_EXTRA[0] != '\0' ? "-" : "", SIMPLE_EXTRA);
+                reply, sizeof(reply), "\033P>|self(%u.%u.%u%s%s)\033\\",
+                SELF_MAJOR, SELF_MINOR, SELF_PATCH,
+                SELF_EXTRA[0] != '\0' ? "-" : "", SELF_EXTRA);
             term_to_slave(term, reply, n);
             break;
         }

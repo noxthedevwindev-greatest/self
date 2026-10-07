@@ -210,7 +210,7 @@ struct seat {
     struct wl_clipboard clipboard;
     struct wl_primary primary;
 
-#if defined(SIMPLE_IME_ENABLED) && SIMPLE_IME_ENABLED
+#if defined(SELF_IME_ENABLED) && SELF_IME_ENABLED
     /* Input Method Editor */
     struct zwp_text_input_v3 *wl_text_input;
     struct {
@@ -481,7 +481,7 @@ struct wayland {
     struct wp_presentation *presentation;
     uint32_t presentation_clock_id;
 
-#if defined(SIMPLE_IME_ENABLED) && SIMPLE_IME_ENABLED
+#if defined(SELF_IME_ENABLED) && SELF_IME_ENABLED
     struct zwp_text_input_manager_v3 *text_input_manager;
 #endif
 

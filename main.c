@@ -22,7 +22,7 @@
 
 #include "config.h"
 #include "fdm.h"
-#include "simple-features.h"
+#include "self-features.h"
 #include "key-binding.h"
 #include "macros.h"
 #include "reaper.h"
@@ -63,13 +63,13 @@ print_usage(const char *prog_name)
 {
     static const char options[] =
         "\nOptions:\n"
-        "  -c,--config=PATH                         load configuration from PATH ($XDG_CONFIG_HOME/simple/simple.ini)\n"
+        "  -c,--config=PATH                         load configuration from PATH ($XDG_CONFIG_HOME/self/self.ini)\n"
         "  -C,--check-config                        verify configuration, exit with 0 if ok, otherwise exit with 1\n"
         "  -o,--override=[section.]key=value        override configuration option\n"
         "  -f,--font=FONT                           comma separated list of fonts in fontconfig format (monospace)\n"
-        "  -t,--term=TERM                           value to set the environment variable TERM to (" SIMPLE_DEFAULT_TERM ")\n"
-        "  -T,--title=TITLE                         initial window title (simple)\n"
-        "  -a,--app-id=ID                           window application ID (simple)\n"
+        "  -t,--term=TERM                           value to set the environment variable TERM to (" SELF_DEFAULT_TERM ")\n"
+        "  -T,--title=TITLE                         initial window title (self)\n"
+        "  -a,--app-id=ID                           window application ID (self)\n"
         "  -m,--maximized                           start in maximized mode\n"
         "  -F,--fullscreen                          start in fullscreen mode\n"
         "  -L,--login-shell                         start shell as a login shell\n"
@@ -77,8 +77,8 @@ print_usage(const char *prog_name)
         "  -D,--working-directory=DIR               directory to start in (CWD)\n"
         "  -w,--window-size-pixels=WIDTHxHEIGHT     initial width and height, in pixels\n"
         "  -W,--window-size-chars=WIDTHxHEIGHT      initial width and height, in characters\n"
-        "  -s,--server[=PATH]                       run as a server (use 'simpleclient' to start terminals).\n"
-        "                                           Without PATH, $XDG_RUNTIME_DIR/simple-$WAYLAND_DISPLAY.sock will be used.\n"
+        "  -s,--server[=PATH]                       run as a server (use 'selfc' to start terminals).\n"
+        "                                           Without PATH, $XDG_RUNTIME_DIR/self-$WAYLAND_DISPLAY.sock will be used.\n"
         "  -H,--hold                                remain open after child process exits\n"
         "  -p,--print-pid=FILE|FD                   print PID to file or FD (only applicable in server mode)\n"
         "  -d,--log-level={info|warning|error|none} log level (warning)\n"
@@ -176,10 +176,10 @@ enum {
 int
 main(int argc, char *const *argv)
 {
-    /* Custom exit code, to enable users to differentiate between simple
+    /* Custom exit code, to enable users to differentiate between self
      * itself failing, and the client application failing */
-    static const int simple_exit_failure = -26;
-    int ret = simple_exit_failure;
+    static const int self_exit_failure = -26;
+    int ret = self_exit_failure;
 
     sanitize_signals();
 
@@ -375,7 +375,7 @@ main(int argc, char *const *argv)
             break;
 
         case 'v':
-            print_version_and_features("simple ");
+            print_version_and_features("self ");
             return EXIT_SUCCESS;
 
         case 'h':
@@ -541,7 +541,7 @@ main(int argc, char *const *argv)
     struct renderer *renderer = NULL;
     struct terminal *term = NULL;
     struct server *server = NULL;
-    struct shutdown_context shutdown_ctx = {.term = &term, .exit_code = simple_exit_failure};
+    struct shutdown_context shutdown_ctx = {.term = &term, .exit_code = self_exit_failure};
 
     const char *cwd = custom_cwd;
     char *_cwd = NULL;
@@ -603,7 +603,7 @@ main(int argc, char *const *argv)
         goto out;
 
     if (!as_server && (term = term_init(
-                           &conf, fdm, reaper, wayl, "simple", cwd, token, pty_path,
+                           &conf, fdm, reaper, wayl, "self", cwd, token, pty_path,
                            argc, argv, NULL,
                            &term_shutdown_cb, &shutdown_ctx)) == NULL) {
         goto out;
@@ -634,7 +634,7 @@ main(int argc, char *const *argv)
     }
 
     if (as_server)
-        LOG_INFO("running as server; launch terminals by running simpleclient");
+        LOG_INFO("running as server; launch terminals by running selfc");
 
     if (as_server && pid_file != NULL) {
         if (!print_pid(pid_file, &unlink_pid_file))
@@ -644,7 +644,7 @@ main(int argc, char *const *argv)
     ret = EXIT_SUCCESS;
     while (likely(!aborted && (as_server || tll_length(wayl->terms) > 0))) {
         if (unlikely(!fdm_poll(fdm))) {
-            ret = simple_exit_failure;
+            ret = self_exit_failure;
             break;
         }
     }

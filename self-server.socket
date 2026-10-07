@@ -1,5 +1,5 @@
 [Socket]
-ListenStream=%t/simple.sock
+ListenStream=%t/self.sock
 
 [Unit]
 PartOf=graphical-session.target

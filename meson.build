@@ -1,4 +1,4 @@
-project('simple', 'c',
+project('self', 'c',
         version: '1.22.3',
         license: 'MIT',
         meson_version: '>=0.59.0',
@@ -64,7 +64,7 @@ endif
 
 add_project_arguments(
   ['-D_GNU_SOURCE=200809L',
-   '-DSIMPLE_DEFAULT_TERM="@0@"'.format(get_option('default-terminfo'))] +
+   '-DSELF_DEFAULT_TERM="@0@"'.format(get_option('default-terminfo'))] +
   (utmp_backend != 'none'
   ? ['-DUTMP_ADD="@0@"'.format(utmp_add),
      '-DUTMP_DEL="@0@"'.format(utmp_del),
@@ -77,10 +77,10 @@ add_project_arguments(
     ? ['-D_DEBUG']
    : [cc.get_supported_arguments('-fno-asynchronous-unwind-tables')]) +
   (get_option('ime')
-    ? ['-DSIMPLE_IME_ENABLED=1']
+    ? ['-DSELF_IME_ENABLED=1']
     : []) +
   (get_option('b_pgo') == 'use'
-    ? ['-DSIMPLE_PGO_ENABLED=1']
+    ? ['-DSELF_PGO_ENABLED=1']
     : []) +
   cc.get_supported_arguments(
     ['-pedantic',
@@ -93,7 +93,7 @@ terminfo_install_location = get_option('custom-terminfo-install-location')
 
 if terminfo_install_location != ''
   add_project_arguments(
-    ['-DSIMPLE_TERMINFO_PATH="@0@"'.format(
+    ['-DSELF_TERMINFO_PATH="@0@"'.format(
       join_paths(get_option('prefix'), terminfo_install_location))],
     language: 'c')
 else
@@ -142,7 +142,7 @@ fontconfig = dependency('fontconfig')
 utf8proc = dependency('libutf8proc', required: get_option('grapheme-clustering'))
 
 if utf8proc.found()
-  add_project_arguments('-DSIMPLE_GRAPHEME_CLUSTERING=1', language: 'c')
+  add_project_arguments('-DSELF_GRAPHEME_CLUSTERING=1', language: 'c')
 endif
 
 if pixman.version().version_compare('>=0.46.0')
@@ -202,12 +202,12 @@ version = custom_target(
 
 python = find_program('python3', native: true)
 generate_builtin_terminfo_py = files('scripts/generate-builtin-terminfo.py')
-simple_terminfo = files('simple.info')
+self_terminfo = files('self.info')
 builtin_terminfo = custom_target(
   'generate_builtin_terminfo',
-  output: 'simple-terminfo.h',
+  output: 'self-terminfo.h',
   command: [python, generate_builtin_terminfo_py,
-            '@default_terminfo@', simple_terminfo, 'simple', '@OUTPUT@']
+            '@default_terminfo@', self_terminfo, 'self', '@OUTPUT@']
 )
 
 generate_emoji_variation_sequences = files('scripts/generate-emoji-variation-sequences.py')
@@ -293,14 +293,14 @@ if get_option('b_pgo') == 'generate'
 endif
 
 executable(
-  'simple',
+  'self',
   'async.c', 'async.h',
   'box-drawing.c', 'box-drawing.h',
   'config.c', 'config.h',
   'commands.c', 'commands.h',
   'extract.c', 'extract.h',
   'fdm.c', 'fdm.h',
-  'simple-features.c', 'simple-features.h',
+  'self-features.c', 'self-features.h',
   'ime.c', 'ime.h',
   'input.c', 'input.h',
   'key-binding.c', 'key-binding.h',
@@ -327,9 +327,9 @@ executable(
   install: true)
 
 executable(
-  'simpleclient',
+  'selfc',
   'client.c', 'client-protocol.h',
-  'simple-features.c', 'simple-features.h',
+  'self-features.c', 'self-features.h',
   'macros.h',
   'util.h',
   version,
@@ -338,7 +338,7 @@ executable(
   install: true)
 
 install_data(
-  'simple.desktop', 'simple-server.desktop', 'simpleclient.desktop',
+  'self.desktop', 'self-server.desktop', 'selfc.desktop',
   install_dir: join_paths(get_option('datadir'), 'applications'))
 
 systemd = dependency('systemd', required: false)
@@ -356,27 +356,27 @@ if systemd.found() or custom_systemd_units_dir != ''
 
   configure_file(
     configuration: configuration,
-    input: 'simple-server.service.in',
+    input: 'self-server.service.in',
     output: '@BASENAME@',
     install_dir: systemd_units_dir
     )
 
   install_data(
-    'simple-server.socket',
+    'self-server.socket',
     install_dir: systemd_units_dir)
 endif
 
 scdoc = dependency('scdoc', native: true, required: get_option('docs'))
-install_data('simple.ini', install_dir: join_paths(get_option('sysconfdir'), 'xdg', 'simple'))
+install_data('self.ini', install_dir: join_paths(get_option('sysconfdir'), 'xdg', 'self'))
 if scdoc.found()
   install_data(
     'LICENSE', 'README.md', 'CHANGELOG.md',
-    install_dir: join_paths(get_option('datadir'), 'doc', 'simple'))
+    install_dir: join_paths(get_option('datadir'), 'doc', 'self'))
   subdir('doc')
 endif
 
 if get_option('themes')
-  install_subdir('themes', install_dir: join_paths(get_option('datadir'), 'simple'))
+  install_subdir('themes', install_dir: join_paths(get_option('datadir'), 'self'))
 endif
 
 terminfo_base_name = get_option('terminfo-base-name')
@@ -393,8 +393,8 @@ if tic.found()
   )
 
   preprocessed = configure_file(
-    input: 'simple.info',
-    output: 'simple.info.preprocessed',
+    input: 'self.info',
+    output: 'self.info.preprocessed',
     configuration: conf_data,
   )
   custom_target(

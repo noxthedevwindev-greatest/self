@@ -1,6 +1,6 @@
 #include "ime.h"
 
-#if defined(SIMPLE_IME_ENABLED) && SIMPLE_IME_ENABLED
+#if defined(SELF_IME_ENABLED) && SELF_IME_ENABLED
 
 #include <string.h>
 
@@ -511,7 +511,7 @@ const struct zwp_text_input_v3_listener text_input_listener = {
     .done = &done,
 };
 
-#else /* !SIMPLE_IME_ENABLED */
+#else /* !SELF_IME_ENABLED */
 
 void ime_enable(struct seat *seat) {}
 void ime_disable(struct seat *seat) {}

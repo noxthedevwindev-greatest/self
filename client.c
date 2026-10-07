@@ -14,12 +14,12 @@
 
 #include <tllist.h>
 
-#define LOG_MODULE "simple-client"
+#define LOG_MODULE "self-client"
 #define LOG_ENABLE_DBG 0
 #include "log.h"
 #include "client-protocol.h"
 #include "debug.h"
-#include "simple-features.h"
+#include "self-features.h"
 #include "macros.h"
 #include "util.h"
 #include "xmalloc.h"
@@ -66,20 +66,20 @@ print_usage(const char *prog_name)
 {
     static const char options[] =
         "\nOptions:\n"
-        "  -t,--term=TERM                           value to set the environment variable TERM to (" SIMPLE_DEFAULT_TERM ")\n"
-        "  -T,--title=TITLE                         initial window title (simple)\n"
-        "  -a,--app-id=ID                           window application ID (simple)\n"
+        "  -t,--term=TERM                           value to set the environment variable TERM to (" SELF_DEFAULT_TERM ")\n"
+        "  -T,--title=TITLE                         initial window title (self)\n"
+        "  -a,--app-id=ID                           window application ID (self)\n"
         "  -w,--window-size-pixels=WIDTHxHEIGHT     initial width and height, in pixels\n"
         "  -W,--window-size-chars=WIDTHxHEIGHT      initial width and height, in characters\n"
         "  -m,--maximized                           start in maximized mode\n"
         "  -F,--fullscreen                          start in fullscreen mode\n"
         "  -L,--login-shell                         start shell as a login shell\n"
         "  -D,--working-directory=DIR               directory to start in (CWD)\n"
-        "  -s,--server-socket=PATH                  path to the server UNIX domain socket (default=$XDG_RUNTIME_DIR/simple-$WAYLAND_DISPLAY.sock)\n"
+        "  -s,--server-socket=PATH                  path to the server UNIX domain socket (default=$XDG_RUNTIME_DIR/self-$WAYLAND_DISPLAY.sock)\n"
         "  -H,--hold                                remain open after child process exits\n"
         "  -N,--no-wait                             detach the client process from the running terminal, exiting immediately\n"
         "  -o,--override=[section.]key=value        override configuration option\n"
-        "  -E, --client-environment                 exec shell using simpleclient's environment, instead of the server's\n"
+        "  -E, --client-environment                 exec shell using selfc's environment, instead of the server's\n"
         "  -d,--log-level={info|warning|error|none} log level (warning)\n"
         "  -l,--log-colorize=[{never|always|auto}]  enable/disable colorization of log output on stderr\n"
         "  -v,--version                             show the version number and quit\n"
@@ -133,10 +133,10 @@ send_string_list(int fd, const string_list_t *string_list)
 int
 main(int argc, char *const *argv)
 {
-    /* Custom exit code, to enable users to differentiate between simple
+    /* Custom exit code, to enable users to differentiate between self
      * itself failing, and the client application failing */
-    static const int simple_exit_failure = -36;
-    int ret = simple_exit_failure;
+    static const int self_exit_failure = -36;
+    int ret = self_exit_failure;
 
     const char *const prog_name = argc > 0 ? argv[0] : "<nullptr>";
 
@@ -313,7 +313,7 @@ main(int argc, char *const *argv)
             break;
 
         case 'v':
-            print_version_and_features("simpleclient ");
+            print_version_and_features("selfc ");
             ret = EXIT_SUCCESS;
             goto err;
 
@@ -348,7 +348,7 @@ main(int argc, char *const *argv)
     if (server_socket_path != NULL) {
         strncpy(addr.sun_path, server_socket_path, sizeof(addr.sun_path) - 1);
         if (connect(fd, (const struct sockaddr *)&addr, sizeof(addr)) < 0) {
-            LOG_ERR("%s: failed to connect (is 'simple --server' running?)", server_socket_path);
+            LOG_ERR("%s: failed to connect (is 'self --server' running?)", server_socket_path);
             goto err;
         }
     } else {
@@ -359,24 +359,24 @@ main(int argc, char *const *argv)
             const char *wayland_display = getenv("WAYLAND_DISPLAY");
             if (wayland_display != NULL) {
                 snprintf(addr.sun_path, sizeof(addr.sun_path),
-                         "%s/simple-%s.sock", xdg_runtime, wayland_display);
+                         "%s/self-%s.sock", xdg_runtime, wayland_display);
                 connected = (connect(fd, (const struct sockaddr *)&addr, sizeof(addr)) == 0);
             }
             if (!connected) {
-                LOG_WARN("%s: failed to connect, will now try %s/simple.sock",
+                LOG_WARN("%s: failed to connect, will now try %s/self.sock",
                          addr.sun_path, xdg_runtime);
                 snprintf(addr.sun_path, sizeof(addr.sun_path),
-                         "%s/simple.sock", xdg_runtime);
+                         "%s/self.sock", xdg_runtime);
                 connected = (connect(fd, (const struct sockaddr *)&addr, sizeof(addr)) == 0);
             }
             if (!connected)
-                LOG_WARN("%s: failed to connect, will now try /tmp/simple.sock", addr.sun_path);
+                LOG_WARN("%s: failed to connect, will now try /tmp/self.sock", addr.sun_path);
         }
 
         if (!connected) {
-            strncpy(addr.sun_path, "/tmp/simple.sock", sizeof(addr.sun_path) - 1);
+            strncpy(addr.sun_path, "/tmp/self.sock", sizeof(addr.sun_path) - 1);
             if (connect(fd, (const struct sockaddr *)&addr, sizeof(addr)) < 0) {
-                LOG_ERRNO("failed to connect (is 'simple --server' running?)");
+                LOG_ERRNO("failed to connect (is 'self --server' running?)");
                 goto err;
             }
         }

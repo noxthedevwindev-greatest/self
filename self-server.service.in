@@ -1,12 +1,12 @@
 [Service]
-ExecStart=@bindir@/simple --server=3
+ExecStart=@bindir@/self --server=3
 UnsetEnvironment=LISTEN_PID LISTEN_FDS LISTEN_FDNAMES
 NonBlocking=true
 
 [Unit]
 Requires=%N.socket
-Description=Simple terminal server mode
-Documentation=man:simple(1)
+Description=Self terminal server mode
+Documentation=man:self(1)
 PartOf=graphical-session.target
 After=graphical-session.target
 ConditionEnvironment=WAYLAND_DISPLAY

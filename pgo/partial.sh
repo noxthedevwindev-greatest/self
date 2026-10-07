@@ -22,8 +22,8 @@ rm -f "${blddir}"/pgo-ok
 cd "${blddir}"
 
 "${blddir}"/utils/xtgettcap
-"${blddir}"/simpleclient --version
-"${blddir}"/simple --version
+"${blddir}"/selfc --version
+"${blddir}"/self --version
 "${blddir}"/pgo "${pgo_data}"
 
 touch "${blddir}"/pgo-ok

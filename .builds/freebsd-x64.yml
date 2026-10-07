@@ -28,22 +28,22 @@ sources:
 
 tasks:
   - fcft: |
-      cd simple/subprojects
+      cd self/subprojects
       git clone https://codeberg.org/dnkl/tllist.git
       git clone https://codeberg.org/dnkl/fcft.git
       cd ../..
   - debug: |
       mkdir -p bld/debug
-      meson setup --buildtype=debug -Dterminfo=disabled -Dgrapheme-clustering=enabled -Dfcft:grapheme-shaping=enabled -Dfcft:run-shaping=enabled -Dfcft:test-text-shaping=true simple bld/debug
+      meson setup --buildtype=debug -Dterminfo=disabled -Dgrapheme-clustering=enabled -Dfcft:grapheme-shaping=enabled -Dfcft:run-shaping=enabled -Dfcft:test-text-shaping=true self bld/debug
       ninja -C bld/debug -k0
       meson test -C bld/debug --print-errorlogs
-      bld/debug/simple --version
-      bld/debug/simpleclient --version
+      bld/debug/self --version
+      bld/debug/selfc --version
 
   - release: |
       mkdir -p bld/release
-      meson setup --buildtype=minsize -Db_pgo=generate -Dterminfo=disabled -Dgrapheme-clustering=enabled -Dfcft:grapheme-shaping=enabled -Dfcft:run-shaping=enabled  -Dfcft:test-text-shaping=true simple bld/release
+      meson setup --buildtype=minsize -Db_pgo=generate -Dterminfo=disabled -Dgrapheme-clustering=enabled -Dfcft:grapheme-shaping=enabled -Dfcft:run-shaping=enabled  -Dfcft:test-text-shaping=true self bld/release
       ninja -C bld/release -k0
       meson test -C bld/release --print-errorlogs
-      bld/release/simple --version
-      bld/release/simpleclient --version
+      bld/release/self --version
+      bld/release/selfc --version

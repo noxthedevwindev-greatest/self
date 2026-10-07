@@ -7,8 +7,8 @@ if utmp_backend != 'none'
                    : '@0@'.format(utmp_del))
   utmp_path = utmp_default_helper_path
 else
-  utmp_add_args = '<no utmp support in simple>'
-  utmp_del_args = '<no utmp support in simple>'
+  utmp_add_args = '<no utmp support in self>'
+  utmp_del_args = '<no utmp support in self>'
   utmp_path = 'none'
 endif
 
@@ -23,10 +23,10 @@ conf_data = configuration_data(
   }
 )
 
-foreach man_src : [{'name': 'simple', 'section' : 1},
-                   {'name': 'simple.ini', 'section': 5},
-                   {'name': 'simpleclient', 'section': 1},
-                   {'name': 'simple-ctlseqs', 'section': 7}]
+foreach man_src : [{'name': 'self', 'section' : 1},
+                   {'name': 'self.ini', 'section': 5},
+                   {'name': 'selfc', 'section': 1},
+                   {'name': 'self-ctlseqs', 'section': 7}]
   name = man_src['name']
   section = man_src['section']
   out = '@0@.@1@'.format(name, section)

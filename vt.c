@@ -4,7 +4,7 @@
 #include <string.h>
 #include <unistd.h>
 
-#if defined(SIMPLE_GRAPHEME_CLUSTERING)
+#if defined(SELF_GRAPHEME_CLUSTERING)
  #include <utf8proc.h>
 #endif
 
@@ -397,7 +397,7 @@ action_collect(struct terminal *term, uint8_t c)
     LOG_DBG("collect: %c", c);
 
     /*
-     * Having more than one private is *very* rare. Simple only supports
+     * Having more than one private is *very* rare. Self only supports
      * a *single* escape with two privates, and none with three or
      * more.
      *

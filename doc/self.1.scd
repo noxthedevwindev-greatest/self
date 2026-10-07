@@ -1,31 +1,31 @@
-simple(1)
+self(1)
 
 # NAME
 
-simple - Wayland terminal emulator
+self - Wayland terminal emulator
 
 # SYNOPSIS
 
-*simple* [_OPTIONS_]++
-*simple* [_OPTIONS_] <_command_> [_COMMAND OPTIONS_]
+*self* [_OPTIONS_]++
+*self* [_OPTIONS_] <_command_> [_COMMAND OPTIONS_]
 
 All trailing (non-option) arguments are treated as a command, and its
 arguments, to execute (instead of the default shell).
 
 # DESCRIPTION
 
-*simple* is a Wayland terminal emulator. Running it without arguments
+*self* is a Wayland terminal emulator. Running it without arguments
 will start a new terminal window with your default shell.
 
 You can override the default shell by appending a custom command to
-the simple command line
+the self command line
 
-	*simple htop*
+	*self htop*
 
 # OPTIONS
 
 *-c*,*--config*=_PATH_
-	Path to configuration file, see *simple.ini*(5) for details.
+	Path to configuration file, see *self.ini*(5) for details.
 
 *-C*,*--check-config*
 	Verify configuration and then exit with 0 if ok, otherwise exit
@@ -61,11 +61,11 @@ the simple command line
 	and *ENVIRONMENT*). Default: _@default_terminfo@_.
 
 *-T*,*--title*=_TITLE_
-	Initial window title. Default: _simple_.
+	Initial window title. Default: _self_.
 
 *-a*,*--app-id*=_ID_
 	Value to set the *app-id* property on the Wayland window
-	to. Default: _simple_ (normal mode), or _simpleclient_ (server mode).
+	to. Default: _self_ (normal mode), or _selfc_ (server mode).
 
 *-m*,*--maximized*
 	Start in maximized mode. If both *--maximized* and *--fullscreen*
@@ -87,11 +87,11 @@ the simple command line
 
 *-D*,*--working-directory*=_DIR_
 	Initial working directory for the client application. Default:
-	_CWD of simple_.
+	_CWD of self_.
 
 *-s*,*--server*[=_PATH_|_FD_]
-	Run as a server. In this mode, a single simple instance hosts
-	multiple terminals (windows). Use *simpleclient*(1) to launch new
+	Run as a server. In this mode, a single self instance hosts
+	multiple terminals (windows). Use *selfc*(1) to launch new
 	terminals.
 	
 	This saves some memory since for example fonts and glyph caches
@@ -112,27 +112,27 @@ the simple command line
 	others with it.
 	
 	The default path is
-	*$XDG\_RUNTIME\_DIR/simple-$WAYLAND\_DISPLAY.sock*.
+	*$XDG\_RUNTIME\_DIR/self-$WAYLAND\_DISPLAY.sock*.
 	
 	If *$XDG\_RUNTIME\_DIR* is not set, the default path is instead
-	*/tmp/simple.sock*.
+	*/tmp/self.sock*.
 	
 	If *$XDG\_RUNTIME\_DIR* is set, but *$WAYLAND\_DISPLAY* is not,
-	the default path is *$XDG\_RUNTIME\_DIR/simple.sock*.
+	the default path is *$XDG\_RUNTIME\_DIR/self.sock*.
 	
 	Note that if you change the default, you will also need to use the
-	*--server-socket* option in *simpleclient*(1) and point it to your
+	*--server-socket* option in *selfc*(1) and point it to your
 	custom socket path.
 
-	If the argument is a number, simple will interpret it as the file descriptor
+	If the argument is a number, self will interpret it as the file descriptor
 	of a socket provided by a supervision daemon (such as systemd or s6), and
 	use that socket as it's own.
 
-	Two systemd units (simple-server.{service,socket}) are provided to use that
+	Two systemd units (self-server.{service,socket}) are provided to use that
 	feature with systemd. To use socket activation, only enable the
 	socket unit.
 
-	Note that starting *simple --server* as a systemd service will use
+	Note that starting *self --server* as a systemd service will use
 	the environment of the systemd user instance; thus, you'll need
 	to import *$WAYLAND_DISPLAY* in it using *systemctl --user
 	import-environment WAYLAND_DISPLAY*.
@@ -168,15 +168,15 @@ the simple command line
 	This option was added in response to several program launchers
 	passing *-e* to arbitrary terminals, under the assumption that
 	they all implement the same semantics for it as *xterm*(1).
-	Ignoring it allows simple to be invoked as e.g. *simple -e man simple*
+	Ignoring it allows self to be invoked as e.g. *self -e man self*
 	with the same results as with xterm, instead of producing an
 	"invalid option" error.
 
 # KEYBOARD SHORTCUTS
 
 The following keyboard shortcuts are available by default. They can be
-changed in *simple.ini*(5). There are also more actions (disabled by
-default) available; see *simple.ini*(5).
+changed in *self.ini*(5). There are also more actions (disabled by
+default) available; see *self.ini*(5).
 
 ## NORMAL MODE
 
@@ -387,9 +387,9 @@ _Examples_:
 
 # URLs
 
-Simple supports URL detection. But, unlike many other terminal
+Self supports URL detection. But, unlike many other terminal
 emulators, where URLs are highlighted when they are hovered and opened
-by clicking on them, simple uses a keyboard driven approach.
+by clicking on them, self uses a keyboard driven approach.
 
 Pressing *ctrl*+*shift*+*o* enters _"Open URL mode"_, where all currently
 visible URLs are underlined, and is associated with a
@@ -397,8 +397,8 @@ _"jump-label"_. The jump-label indicates the _key sequence_
 (e.g. *"AF"*) to use to activate the URL.
 
 The key binding can, of course, be customized, like all other key
-bindings in simple. See *show-urls-launch* and *show-urls-copy* in
-*simple.ini*(5).
+bindings in self. See *show-urls-launch* and *show-urls-copy* in
+*self.ini*(5).
 
 *show-urls-launch* by default opens the URL with *xdg-open*. This can
 be changed with the *url-launch* option.
@@ -412,13 +412,13 @@ the jump label key sequences can be configured.
 
 # ALT/META CHARACTERS
 
-By default, simple prefixes meta characters with *ESC*. This corresponds
+By default, self prefixes meta characters with *ESC*. This corresponds
 to XTerm's *metaSendsEscape* option set to *true*.
 
 This can be disabled programmatically with *\E[?1036l* (and enabled
 again with *\E[?1036h*).
 
-When disabled, simple will instead set the 8:th bit of meta character
+When disabled, self will instead set the 8:th bit of meta character
 and then UTF-8 encode it. This corresponds to XTerm's *eightBitMeta*
 option set to *true*.
 
@@ -428,12 +428,12 @@ This can also be disabled programmatically with *rmm* (Reset Meta Mode,
 
 # BACKSPACE
 
-Simple transmits DEL (*^?*) on backspace. This corresponds to XTerm's
+Self transmits DEL (*^?*) on backspace. This corresponds to XTerm's
 *backarrowKey* option set to *false*, and to DECBKM being _reset_.
 
 To instead transmit BS (*^H*), press *ctrl*+*backspace*.
 
-Note that simple does *not* implement DECBKM, and that the behavior
+Note that self does *not* implement DECBKM, and that the behavior
 described above *cannot* be changed.
 
 Finally, pressing *alt* will prefix the transmitted byte with ESC.
@@ -457,24 +457,24 @@ numbers, when in _application_ mode.
 
 # CONFIGURATION
 
-simple will search for a configuration file in the following locations,
+self will search for a configuration file in the following locations,
 in this order:
 
-	- *XDG_CONFIG_HOME/simple/simple.ini* (defaulting to
-	  *$HOME/.config/simple/simple.ini* if unset)
-	- *XDG_CONFIG_DIRS/simple/simple.ini* (defaulting to
-	  */etc/xdg/simple/simple.ini* if unset)
+	- *XDG_CONFIG_HOME/self/self.ini* (defaulting to
+	  *$HOME/.config/self/self.ini* if unset)
+	- *XDG_CONFIG_DIRS/self/self.ini* (defaulting to
+	  */etc/xdg/self/self.ini* if unset)
 
 An example configuration file containing all options with their default value
-commented out will usually be installed to */etc/xdg/simple/simple.ini*.
+commented out will usually be installed to */etc/xdg/self/self.ini*.
 
-For more information, see *simple.ini*(5).
+For more information, see *self.ini*(5).
 
 # SHELL INTEGRATION
 
 ## Current working directory
 
-New simple terminal instances (bound to *ctrl*+*shift*+*n* by default)
+New self terminal instances (bound to *ctrl*+*shift*+*n* by default)
 will open in the current working directory, if the shell in the
 "parent" terminal reports directory changes.
 
@@ -486,7 +486,7 @@ for details.
 
 ## Jumping between prompts
 
-Simple can move the current viewport to focus prompts of already
+Self can move the current viewport to focus prompts of already
 executed commands (bound to *ctrl*+*shift*+*z*/*x* by default).
 
 For this to work, the shell needs to emit an OSC-133;A
@@ -509,12 +509,12 @@ output to an application of your choice (similar to the other
 *pipe-\** key bindings):
 
 	*\[key-bindings\]++
-pipe-command-output=[sh -c "f=$(mktemp); cat - > $f; simpleclient emacsclient -nw $f; rm $f"] Control+Shift+g*
+pipe-command-output=[sh -c "f=$(mktemp); cat - > $f; selfc emacsclient -nw $f; rm $f"] Control+Shift+g*
 
 When pressing *ctrl*+*shift*+*g*, the last command's output is written
 to a temporary file, then an emacsclient is started in a new
-simpleclient instance. The temporary file is removed after the
-simpleclient instance has closed.
+selfc instance. The temporary file is removed after the
+selfc instance has closed.
 
 For this to work, the shell must emit an OSC-133;C (*\\E]133;C\\E\\\\*)
 sequence before command output starts, and an OSC-133;D
@@ -522,11 +522,11 @@ sequence before command output starts, and an OSC-133;D
 
 In fish, one way to do this is to add _preexec_ and _postexec_ hooks:
 
-	*function simple_cmd_start --on-event fish_preexec
+	*function self_cmd_start --on-event fish_preexec
 		echo -en "\\e]133;C\\e\\\\"
 	end*
 
-	*function simple_cmd_end --on-event fish_postexec
+	*function self_cmd_end --on-event fish_postexec
 		echo -en "\\e]133;D\\e\\\\"
 	end*
 
@@ -537,34 +537,34 @@ for details, and examples for other shells
 # TERMINFO
 
 Client applications use the terminfo identifier specified by the
-environment variable *TERM* (set by simple) to determine terminal
+environment variable *TERM* (set by self) to determine terminal
 capabilities.
 
-Simple has two terminfo definitions: *simple* and *simple-direct*, with
-*simple* being the default.
+Self has two terminfo definitions: *self* and *self-direct*, with
+*self* being the default.
 
 The difference between the two is in the number of colors they
-describe; *simple* describes 256 colors and *simple-direct* 16.7 million
+describe; *self* describes 256 colors and *self-direct* 16.7 million
 colors (24-bit truecolor).
 
-Note that using the *simple* terminfo does not limit the number of
+Note that using the *self* terminfo does not limit the number of
 usable colors to 256; applications can still use 24-bit RGB colors. In
-fact, most applications work best with *simple* (including 24-bit
+fact, most applications work best with *self* (including 24-bit
 colors). Using *\*-direct* terminfo entries has been known to crash
 some ncurses applications even.
 
 There are however applications that need a *\*-direct* terminfo entry
 for 24-bit support. Emacs is one such example.
 
-While using either *simple* or *simple-direct* is strongly recommended, it
+While using either *self* or *self-direct* is strongly recommended, it
 is possible to use e.g. *xterm-256color* as well. This can be useful
-when remoting to a system where simple's terminfo entries cannot easily
+when remoting to a system where self's terminfo entries cannot easily
 be installed.
 
 Note that terminfo entries can be installed in the user's home
 directory. I.e. if you do not have root access, or if there is no
-distro package for simple's terminfo entries, you can install simple's
-terminfo entries manually, by copying *simple* and *simple-direct* to
+distro package for self's terminfo entries, you can install self's
+terminfo entries manually, by copying *self* and *self-direct* to
 *~/.terminfo/s/*.
 
 # XTGETTCAP
@@ -574,7 +574,7 @@ also implemented (and extended, to some degree) by Kitty.
 
 It allows querying the terminal for terminfo classic, file-based,
 terminfo definition. For example, if all applications used this
-feature, you would no longer have to install simple's terminfo on remote
+feature, you would no longer have to install self's terminfo on remote
 hosts you SSH into.
 
 XTerm's implementation (as of XTerm-370) only supports querying key
@@ -588,11 +588,11 @@ XTerm's implementation (as of XTerm-370) only supports querying key
 Kitty has extended this, and also supports querying all integer and
 string capabilities.
 
-Simple supports this, and extends it even further, to also include
-boolean capabilities. This means simple's entire terminfo can be queried
+Self supports this, and extends it even further, to also include
+boolean capabilities. This means self's entire terminfo can be queried
 via *XTGETTCAP*.
 
-Note that both Kitty and simple handles responses to multi-capability
+Note that both Kitty and self handles responses to multi-capability
 queries slightly differently, compared to XTerm.
 
 XTerm will send a single DCS reply, with ;-separated
@@ -608,37 +608,37 @@ In other words, if you send a large multi-capability query, you will
 only get responses up to, but not including, the first invalid
 capability. All subsequent capabilities will be dropped.
 
-Kitty and simple on the other hand, send one DCS response for each
+Kitty and self on the other hand, send one DCS response for each
 capability in the multi query. This allows us to send a proper
 success/fail flag for each queried capability. Responses for all
 queried capabilities are always sent. No queries are ever dropped.
 
 # EXIT STATUS
 
-Simple will exit with code 230 if there is a failure in simple itself.
+Self will exit with code 230 if there is a failure in self itself.
 
 In all other cases, the exit code is that of the client application
 (i.e. the shell).
 
 # ENVIRONMENT
 
-## Variables used by simple
+## Variables used by self
 
 *SHELL*
 	The default child process to run, when no _command_ argument is
-	specified and the *shell* option in *simple.ini*(5) is not set.
+	specified and the *shell* option in *self.ini*(5) is not set.
 
 *HOME*
 	Used to determine the location of the configuration file, see
-	*simple.ini*(5) for details.
+	*self.ini*(5) for details.
 
 *XDG\_CONFIG\_HOME*
 	Used to determine the location of the configuration file, see
-	*simple.ini*(5) for details.
+	*self.ini*(5) for details.
 
 *XDG\_CONFIG\_DIRS*
 	Used to determine the location of the configuration file, see
-	*simple.ini*(5) for details.
+	*self.ini*(5) for details.
 
 *XDG\_RUNTIME\_DIR*
 	Used to construct the default _PATH_ for the *--server*
@@ -662,21 +662,21 @@ In all other cases, the exit code is that of the client application
 	terminfo/termcap identifier. This is used by client applications
 	to determine which capabilities a terminal supports. The value is
 	set according to either the *--term* command-line option or the
-	*term* config option in *simple.ini*(5).
+	*term* config option in *self.ini*(5).
 
 *COLORTERM*
 	This variable is set to *truecolor*, to indicate to client
 	applications that 24-bit RGB colors are supported.
 
 *PWD*
-	Current working directory (at the time of launching simple)
+	Current working directory (at the time of launching self)
 
 *SHELL*
 	Set to the launched shell, if the shell is valid (it is listed in
 	*/etc/shells*).
 
 In addition to the variables listed above, custom environment
-variables may be defined in *simple.ini*(5).
+variables may be defined in *self.ini*(5).
 
 ## Variables *unset* in the child process
 
@@ -684,10 +684,10 @@ variables may be defined in *simple.ini*(5).
 *TERM_PROGRAM_VERSION*
 	These environment variables are set by certain other terminal
 	emulators. We unset them, to prevent applications from
-	misdetecting simple.
+	misdetecting self.
 
 In addition to the variables listed above, custom environment
-variables to unset may be defined in *simple.ini*(5).
+variables to unset may be defined in *self.ini*(5).
 
 # BUGS
 
@@ -700,8 +700,8 @@ the same issue.
 
 The report should contain the following:
 
-- Simple version (*simple --version*).
-- Log output from simple (run *simple -d info* from another terminal).
+- Self version (*self --version*).
+- Log output from self (run *self -d info* from another terminal).
 - Which Wayland compositor (and version) you are running.
 - If reporting a crash, please try to provide a *bt full* backtrace
   with symbols.
@@ -714,4 +714,4 @@ its own)
 
 # SEE ALSO
 
-*simple.ini*(5), *simpleclient*(1)
+*self.ini*(5), *selfc*(1)
